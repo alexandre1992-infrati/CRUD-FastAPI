@@ -3,11 +3,12 @@ from pydantic import BaseModel as SchemaBaseModel
 
 
 class CoursesSchema(SchemaBaseModel):
-    id: Optional[int]
+    id: Optional[int] = None
     titulo: str
     aulas: int
     horas: int
-    
-    class Config():
-        orm_mode = True
+
+    model_config = {
+        "from_attributes": True
+    }
         

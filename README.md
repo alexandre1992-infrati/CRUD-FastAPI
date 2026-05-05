@@ -1,160 +1,174 @@
 # CRUD FastAPI
 
-> Um projeto de estudos sobre o framework **FastAPI** e desenvolvimento web com Python.
+> Projeto educacional em FastAPI para gerenciar um CRUD de cursos com SQLAlchemy assíncrono e Pydantic V2.
 
 ## 📋 Sobre o Projeto
 
-Este é um projeto educacional desenvolvido para aprender os conceitos fundamentais do FastAPI, um framework moderno e rápido para construir APIs REST com Python. O projeto implementa um CRUD (Create, Read, Update, Delete) simples para gerenciar cursos, com foco em boas práticas de desenvolvimento e estrutura de código.
+Este projeto demonstra uma API REST básica em FastAPI para gerenciar recursos de curso (`courses`). Ele usa SQLAlchemy com execução assíncrona e validação de dados com Pydantic V2.
 
 ## 🏗️ Estrutura do Projeto
 
 ```
 crud_fastapi/
+├── api/
+│   └── v1/
+│       ├── api.py               # Roteamento principal da API
+│       └── endpoints/
+│           └── course.py        # Endpoints CRUD de cursos
 ├── core/
-│   ├── configs.py          # Configurações da aplicação (database, API versioning)
-│   ├── database.py         # Setup do SQLAlchemy com AsyncSQL
-│   └── dependency.py       # Injeção de dependências
+│   ├── configs.py               # Configurações de ambiente e banco
+│   ├── database.py              # Engine e sessão SQLAlchemy assíncrona
+│   └── dependency.py            # Dependência de sessão do banco
 ├── models/
-│   ├── __all_models.py     # Importação centralizada de modelos
-│   └── courses_model.py    # Modelo de Cursos (ORM)
+│   ├── __all_models.py          # Import centralizado de modelos
+│   └── courses_model.py         # Modelo ORM de curso
 ├── schemas/
-│   └── course_schema.py    # Schema Pydantic para validação de Cursos
-├── api/                    # Rotas/endpoints (em desenvolvimento)
-├── main.py                 # Ponto de entrada da aplicação
-├── create_table.py         # Script para criar tabelas no banco
-└── requeriments.txt        # Dependências do projeto
+│   └── course_schema.py         # Schema Pydantic para curso
+├── create_table.py              # Script de criação de tabelas no banco
+├── main.py                      # Ponto de entrada da aplicação
+└── requirements.txt             # Dependências Python
 ```
 
 ## 🛠️ Tecnologias
 
-- **FastAPI** - Framework web assíncrono
-- **Pydantic** - Validação de dados e configuração
-- **SQLAlchemy** - ORM (Object-Relational Mapping)
-- **AsyncPG** - Driver assíncrono para PostgreSQL
-- **PostgreSQL** - Banco de dados relacional
-- **Python 3.13** - Linguagem de programação
+- FastAPI
+- SQLAlchemy 2.x
+- Pydantic 2.x
+- asyncpg
+- PostgreSQL
+- Uvicorn
+- Python 3.13
 
 ## 📦 Pré-requisitos
 
 - Python 3.10+
-- PostgreSQL instalado e configurado
-- pip ou pip3
-- Ambiente virtual (recomendado)
+- PostgreSQL em execução
+- `pip` instalado
+- Ambiente virtual recomendado
 
 ## 🚀 Instalação
-
-### 1. Clone o repositório
 
 ```bash
 git clone <seu-repositorio>
 cd crud_fastapi
-```
-
-### 2. Crie um ambiente virtual
-
-```bash
 python -m venv venv
-```
-
-### 3. Ative o ambiente virtual
-
-**Linux/macOS:**
-```bash
 source venv/bin/activate
-```
-
-**Windows:**
-```bash
-venv\Scripts\activate
-```
-
-### 4. Instale as dependências
-
-```bash
-pip install -r requeriments.txt
+pip install -r requirements.txt
 ```
 
 ## ⚙️ Configuração
 
-### Banco de Dados
+### Ajuste a conexão do banco
 
-Edite o arquivo `core/configs.py` e ajuste a `DATABASE_URL` conforme suas credenciais do PostgreSQL:
+No arquivo `core/configs.py`, atualize a URL do banco de dados:
 
 ```python
-DATABASE_URL: str = "postgresql+asyncpg://<usuario>:<senha>@<host>:<porta>/<banco>"
+DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/faculdade"
 ```
 
-Exemplo:
-```python
-DATABASE_URL: str = "postgresql+asyncpg://postgres:senha123@localhost:5432/faculdade"
-```
+Ajuste `<usuario>`, `<senha>`, `<host>`, `<porta>` e `<banco>` conforme necessário.
 
-### Criar as Tabelas
+### Criar tabelas no banco
 
-Execute o script para criar as tabelas no banco de dados:
+Execute:
 
 ```bash
 python create_table.py
 ```
 
-## 💻 Como Usar
-
-### Iniciar a Aplicação
+## 💻 Executando a aplicação
 
 ```bash
 uvicorn main:app --reload
 ```
 
-A API estará disponível em: `http://localhost:8000`
+A API estará disponível em `http://localhost:8000`.
 
-### Documentação Interativa
+## 📚 Endpoints disponíveis
 
-- **Swagger UI**: `http://localhost:8000/docs`
-- **ReDoc**: `http://localhost:8000/redoc`
+A API atual expõe os seguintes endpoints:
 
-## 📚 Conceitos Aprendidos
+| Método | Rota | Descrição |
+|---|---|---|
+| POST | `/api/v1/courses/` | Cria um novo curso |
+| GET | `/api/v1/courses/` | Lista todos os cursos |
+| GET | `/api/v1/courses/{course_id}` | Retorna um curso por ID |
+| PUT | `/api/v1/courses/{course_id}` | Atualiza um curso existente |
+| DELETE | `/api/v1/courses/{course_id}` | Remove um curso |
 
-Este projeto cobre:
-
-- ✅ Configuração de aplicações FastAPI
-- ✅ Integração com bancos de dados assíncrono
-- ✅ Validação de dados com Pydantic
-- ✅ Modelos SQLAlchemy (ORM)
-- ✅ Injeção de dependências
-- ✅ Migração do Pydantic v1 → v2 (BaseSettings)
-- ⏳ Endpoints CRUD (em desenvolvimento)
-- ⏳ Tratamento de erros e exceções
-- ⏳ Testes unitários
-
-## 📝 Status do Projeto
-
-- [x] Estrutura inicial do projeto
-- [x] Configuração do banco de dados
-- [x] Modelos e schemas
-- [x] Correção compatibilidade Pydantic v2
-- [ ] Implementação dos endpoints CRUD
-- [ ] Testes unitários
-- [ ] Documentação da API
-- [ ] Deploy
-
-## 🔧 Troubleshooting
-
-### Erro: `BaseSettings` has been moved to `pydantic-settings`
-
-**Solução**: Instale o pacote `pydantic-settings`:
+### Exemplo de requisição POST
 
 ```bash
-pip install pydantic-settings
+curl -X POST http://127.0.0.1:8000/api/v1/courses/ \
+  -H "Content-Type: application/json" \
+  -d '{"titulo":"Exemplo","aulas":10,"horas":20}'
 ```
 
-### Erro: Falha na autenticação do PostgreSQL
+### Exemplo de corpo JSON
 
-**Solução**: Verifique as credenciais no `core/configs.py` e certifique-se que o PostgreSQL está rodando.
+```json
+{
+  "titulo": "Exemplo",
+  "aulas": 10,
+  "horas": 20
+}
+```
 
-## 📄 Licença
+### Exemplo de requisição GET (lista)
 
-Este projeto é de uso educacional. Sinta-se livre para usar, modificar e compartilhar.
+```bash
+curl http://127.0.0.1:8000/api/v1/courses/
+```
 
-## 👤 Autor
+### Exemplo de requisição GET por ID
 
-Desenvolvido como projeto de estudos em FastAPI e Python Web Development.
+```bash
+curl http://127.0.0.1:8000/api/v1/courses/1
+```
+
+### Exemplo de requisição PUT
+
+```bash
+curl -X PUT http://127.0.0.1:8000/api/v1/courses/1 \
+  -H "Content-Type: application/json" \
+  -d '{"titulo":"Curso Atualizado","aulas":12,"horas":24}'
+```
+
+### Exemplo de requisição DELETE
+
+```bash
+curl -X DELETE http://127.0.0.1:8000/api/v1/courses/1
+```
+
+## 📄 Observações
+
+- O schema Pydantic usa `model_config = {"from_attributes": True}` para suportar mapeamento de atributos ORM.
+- O campo `id` no schema é opcional e será preenchido pelo banco de dados após a criação.
+- As rotas estão agrupadas em `/api/v1` conforme `settings.API_V1_STR`.
+
+## 🧠 Como o projeto está organizado
+
+- `main.py`: inicializa o app FastAPI e registra rotas.
+- `api/v1/api.py`: define o `APIRouter` principal e inclui o router de cursos.
+- `api/v1/endpoints/course.py`: implementa os endpoints CRUD.
+- `core/configs.py`: configurações da aplicação e base do modelo.
+- `core/database.py`: configuração do engine e da sessão assíncrona.
+- `core/dependency.py`: dependency injection para obter a sessão.
+- `models/courses_model.py`: classe ORM `CourseModel`.
+- `schemas/course_schema.py`: schema Pydantic para entrada/saída.
+
+## 🔧 Dicas de troubleshooting
+
+- Verifique se o PostgreSQL está rodando e aceitando conexões.
+- O banco deve existir antes de executar `create_table.py`.
+- Se o `uvicorn` não estiver instalado, instale com `pip install uvicorn`.
+- Se ocorrer `ModuleNotFoundError: httpx`, instale `httpx` para o teste com `fastapi.testclient`.
+
+## 📄 Documentação automática
+
+- Swagger: `http://localhost:8000/docs`
+- ReDoc: `http://localhost:8000/redoc`
+
+## 📝 Licença
+
+Projeto educacional para aprendizado em FastAPI e APIs REST.
