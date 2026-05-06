@@ -24,27 +24,46 @@ crud_fastapi/
 │   └── courses_model.py         # Modelo ORM de curso
 ├── schemas/
 │   └── course_schema.py         # Schema Pydantic para curso
+├── tests/
+│   └── test.py                  # Suite de testes CRUD com pytest
 ├── create_table.py              # Script de criação de tabelas no banco
 ├── main.py                      # Ponto de entrada da aplicação
-└── requirements.txt             # Dependências Python
+├── setup-environment.sh         # Script de automação de setup (Linux)
+├── requirements.txt             # Dependências Python
+├── SETUP_GUIDE.md               # Guia completo de instalação
+├── README_TEST.md               # Documentação dos testes
+└── README.md                    # Este arquivo
 ```
 
 ## 🛠️ Tecnologias
 
-- FastAPI
-- SQLAlchemy 2.x
-- Pydantic 2.x
-- asyncpg
-- PostgreSQL
-- Uvicorn
-- Python 3.13
+- **FastAPI** 0.136.1 - Framework web moderno e rápido
+- **SQLAlchemy** 2.0.49 - ORM assíncrono com suporte a async/await
+- **Pydantic** 2.13.3 - Validação e serialização de dados
+- **asyncpg** 0.31.0 - Driver assíncrono para PostgreSQL
+- **PostgreSQL** - Banco de dados relacional
+- **Uvicorn** 0.46.0 - Servidor ASGI
+- **pytest** 8.4.2 - Framework de testes
+- **httpx** 0.28.1 - Cliente HTTP para testes
+- **Python** 3.10+
 
 ## 📦 Pré-requisitos
 
-- Python 3.10+
-- PostgreSQL em execução
-- `pip` instalado
-- Ambiente virtual recomendado
+- **Python** 3.10+
+- **PostgreSQL** instalado e rodando
+- **pip** e **git** instalados
+- **Privilégios sudo** para o script de automação
+- Ambiente virtual Python recomendado
+
+## ✅ Estado do Projeto
+
+- ✓ API CRUD totalmente funcional
+- ✓ Testes implementados e passando
+- ✓ SQLAlchemy 2.0 corrigido (scalar_one_or_none)
+- ✓ Ambiente assíncrono completo
+- ✓ Script de automação para Linux
+- ✓ Documentação de setup e testes
+- ✓ Dependências atualizadas e testadas
 
 ## 🚀 Instalação
 
@@ -116,9 +135,21 @@ source venv/bin/activate
 pytest tests/test.py -q
 ```
 
-O suite de testes cobre todas as operações CRUD (Create, Read, Update, Delete).
+### Resultado esperado
 
-**Consulte [README_TEST.md](README_TEST.md) para detalhes sobre a cobertura de testes.**
+```
+1 passed, 2 warnings in 4.24s
+```
+
+O suite de testes cobre:
+- ✓ POST: Criação de novo curso
+- ✓ GET: Listagem de todos os cursos
+- ✓ GET: Busca de curso por ID
+- ✓ PUT: Atualização de curso
+- ✓ DELETE: Exclusão de curso
+- ✓ Validação de retorno 404 para curso deletado
+
+**Consulte [README_TEST.md](README_TEST.md) para detalhes completos sobre a cobertura de testes.**
 
 ## 📚 Endpoints disponíveis
 
@@ -195,15 +226,43 @@ curl -X DELETE http://127.0.0.1:8000/api/v1/courses/1
 
 ## 🔧 Dicas de troubleshooting
 
-- Verifique se o PostgreSQL está rodando e aceitando conexões.
-- O banco deve existir antes de executar `create_table.py`.
-- Se o `uvicorn` não estiver instalado, instale com `pip install uvicorn`.
-- Se ocorrer `ModuleNotFoundError: httpx`, instale `httpx` para o teste com `fastapi.testclient`.
+| Problema | Solução |
+|----------|----------|
+| PostgreSQL não conecta | `sudo systemctl restart postgresql` |
+| Banco não existe | Execute `python create_table.py` após configurar credenciais |
+| Erro ao importar módulos | Verifique: `source venv/bin/activate` |
+| Testes falham | Limpe o banco: `python create_table.py` e rode novamente |
+| Port 8000 em uso | `lsof -i :8000` para ver processo, depois mude a porta em `main.py` |
 
-## 📄 Documentação automática
+**Para suporte completo, consulte [SETUP_GUIDE.md](SETUP_GUIDE.md#troubleshooting).**
 
-- Swagger: `http://localhost:8000/docs`
-- ReDoc: `http://localhost:8000/redoc`
+## � Documentação
+
+### Documentação Automática da API
+
+- **Swagger UI**: `http://localhost:8000/docs`
+- **ReDoc**: `http://localhost:8000/redoc`
+- **OpenAPI**: `http://localhost:8000/openapi.json`
+
+### Documentação do Projeto
+
+- [SETUP_GUIDE.md](SETUP_GUIDE.md) - Guia completo de instalação e configuração
+- [README_TEST.md](README_TEST.md) - Documentação detalhada dos testes
+- [setup-environment.sh](setup-environment.sh) - Script de automação
+
+## 📌 Próximas Etapas (Sugestões)
+
+- [ ] Adicionar autenticação (JWT)
+- [ ] Implementar paginação nas listagens
+- [ ] Adicionar validações customizadas
+- [ ] Criar mais modelos (professores, alunos, etc.)
+- [ ] Implementar logging estruturado
+- [ ] Adicionar CI/CD (GitHub Actions)
+- [ ] Dockerizar a aplicação
+
+## 🤝 Contribuições
+
+Sugestões e melhorias são bem-vindas! Este é um projeto educacional.
 
 ## 📝 Licença
 
