@@ -34,7 +34,7 @@ async def get_course(course_id: int, db: AsyncSession = Depends(get_session)):
     async with db as session:
         query = select(Course).where(Course.id == course_id)
         result = await session.execute(query)
-        course: Course = result.scalars_one_or_none()
+        course: Course = result.scalar_one_or_none()
         if not course:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Curso não encontrado')
         return course
@@ -46,7 +46,7 @@ async def put_course(course_id: int, course: CourseSchema, db: AsyncSession = De
     async with db as session:
         query = select(Course).where(Course.id == course_id)
         result = await session.execute(query)
-        existing_course: Course = result.scalars_one_or_none()
+        existing_course: Course = result.scalar_one_or_none()
         if not existing_course:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Curso não encontrado')
         existing_course.titulo = course.titulo
@@ -62,7 +62,7 @@ async def delete_course(course_id: int, db: AsyncSession = Depends(get_session))
     async with db as session:
         query = select(Course).where(Course.id == course_id)
         result = await session.execute(query)
-        existing_course: Course = result.scalars_one_or_none()
+        existing_course: Course = result.scalar_one_or_none()
         if not existing_course:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Curso não encontrado')
         await session.delete(existing_course)
