@@ -48,6 +48,27 @@ crud_fastapi/
 
 ## 🚀 Instalação
 
+### ⚡ Método Rápido (Recomendado)
+
+Use o script de automação para instalar toda a infraestrutura:
+
+```bash
+bash setup-environment.sh
+```
+
+Este script irá:
+- ✓ Atualizar pacotes do sistema
+- ✓ Instalar Python 3, pip e PostgreSQL
+- ✓ Criar ambiente virtual e instalar dependências
+- ✓ Configurar banco de dados
+- ✓ Executar testes automaticamente
+
+**Consulte [SETUP_GUIDE.md](SETUP_GUIDE.md) para detalhes completos.**
+
+### 📘 Método Manual
+
+Se preferir instalar manualmente:
+
 ```bash
 git clone <seu-repositorio>
 cd crud_fastapi
@@ -55,6 +76,8 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
+
+Depois, configure o banco de dados (veja [Configuração](#-configuração) abaixo).
 
 ## ⚙️ Configuração
 
@@ -83,6 +106,19 @@ uvicorn main:app --reload
 ```
 
 A API estará disponível em `http://localhost:8000`.
+
+## 🧪 Testes
+
+Execute os testes da API com:
+
+```bash
+source venv/bin/activate
+pytest tests/test.py -q
+```
+
+O suite de testes cobre todas as operações CRUD (Create, Read, Update, Delete).
+
+**Consulte [README_TEST.md](README_TEST.md) para detalhes sobre a cobertura de testes.**
 
 ## 📚 Endpoints disponíveis
 
